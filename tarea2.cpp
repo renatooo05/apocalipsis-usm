@@ -6,6 +6,15 @@
 
 using namespace std;
 
+struct Enemigo {
+    string nombre;
+    int vida;
+    int ataque;
+    float precision;
+    float probabilidad;
+};
+
+
 struct Habitacion{
     int id;
     string nombre;
@@ -119,4 +128,45 @@ void arcosXhabitaciones(ifstream& map, Habitacion* habitaciones, int N){
         }
         
     }
+}
+
+Enemigo* leerEnemigos(ifstream& map, int & E){
+    string linea;
+    if (!getline(map, linea)){
+        cerr << "Error al leer la cantidad de enemigos\n";
+        exit(EXIT_FAILURE);
+    }
+    E = stoi(linea);
+    Enemigo* enemigos = new Enemigo[E];
+
+    for(int i = 0; i < E; ++i){
+        do {
+            if (!getline(map, linea)){
+        cerr << "Error al leer los datos del enemigos\n";
+        exit(EXIT_FAILURE);
+        }
+    } while(linea.empty());
+
+    stringstream palabrasXlinea(linea);
+    string parteAux;
+    string enemyChrter[5];
+    int pos = 0
+
+    while (getline(palabrasXlinea, parteAux, '|') && pos < 5){
+        size_t inicioPalabra = parteAux.find_first_not_of(" ");
+        enemyChrter[pos++] = (inicioPalabra == string::npos) ? "" : parteAux.substr(inicioPalabra);     
+    } 
+
+    enemigos[i].nombre = enemyChrter[0];
+    
+    //que dolor de cabeza estas proximas lineas
+    string innecesario;
+    stringstream(enemyChrter[1]) >> innecesario >> enemigos[i].vida;
+    stringstream(enemyChrter[2]) >> innecesario >> enemigos[i].ataque;
+    stringstream(enemyChrter[3]) >> innecesario >> enemigos[i].precision;
+    stringstream(enemyChrter[4]) >> innecesario >> enemigos[i].probabilidad;
+    }
+
+    return enemigos;
+
 }
