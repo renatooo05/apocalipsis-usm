@@ -6,6 +6,19 @@
 
 using namespace std;
 
+struct Evento {
+    string nombre;
+    float probabilidad;
+    string descripcion;
+
+    string opcionA;
+    string efectoA;
+
+    string opcionB;
+    string efectoB;
+};
+
+
 struct Enemigo {
     string nombre;
     int vida;
@@ -60,8 +73,8 @@ Habitacion* leerHabitaciones(ifstream& map, int& N){
                 tipoEve = palabra.substr(1, palabra.size() - 2);
                 break;
             }
-            else if(!nombreEve.empty()){
-                nombreEve += " ";
+            else{
+                if(!nombreEve.empty()) nombreEve += " ";
                 nombreEve += palabra;
             }
         }
@@ -168,5 +181,110 @@ Enemigo* leerEnemigos(ifstream& map, int & E){
     }
 
     return enemigos;
+
+}
+
+Evento* leerEventos(ifstream &map, int & eventosTotales){
+    string linea;
+    if(!getline(map,linea)){
+        cerr << "Error al obtener la cantidad de eventos\n";
+        exit(EXIT_FAILURE);
+    }
+
+    eventosTotales = stoi(linea);
+    Evento* eventos = new Evento[eventosTotales];
+
+    for(int i = 0; i < eventosTotales; ++i){
+        do{
+            if (!getline(map,linea)){
+            cerr << "Error al leer el evento " << i + 1 << endl;
+            exit(EXIT_FAILURE);
+            }
+
+        }while (linea.empty() || linea[0] != '&');
+
+    getline(map, eventos[i].nombre);
+
+    getline(map, linea);
+    string innecesario;
+    stringstream(linea) >> innecesario >> eventos[i].probabilidad;
+
+    getline(map, eventos[i].descripcion);
+
+    //Opcion A
+    getline(map, linea);
+    size_t posA = linea.find(':');
+    eventos[i].opcionA = (posA != string::npos) ? linea.substr(posA + 1) : linea;
+    eventos[i].opcionA.erase(0, eventos[i].opcionA.find_first_not_of(" "));
+
+    string efectoA1, efectoA2;
+    getline(map, efectoA1);
+    getline(map, efectoA2);
+    eventos[i].efectoA = efectoA1 + "\n" + efectoA2;
+
+    //Opcion B
+    getline(map, linea);
+    size_t posB = linea.find(':');
+    eventos[i].opcionB = (posB != string::npos) ? linea.substr(posB + 1) : linea;
+    eventos[i].opcionB.erase(0, eventos[i].opcionB.find_first_not_of(" "));
+
+
+    string efectoB1, efectoB2;
+    getline(map, efectoB1);
+    getline(map, efectoB2);
+    eventos[i].efectoB = efectoB1 + "\n" + efectoB2;
+    }
+
+    return eventos;
+}
+
+
+
+int main(){
+    ifstream map("ejemplo.map");
+    if(!map.is_open()){
+        cerr << "Error al abrir el archivo"<< endl;
+        return 1;
+    }
+
+    string linea;
+    while(getline(map, linea)){
+        if (linea == "HABITACIONES") break;
+
+    }
+
+    int n;
+    Habitacion* habitaciones = leerHabitaciones(map, n);
+
+    while (getline(map,linea)){
+        if (linea == "ARCOS") break;
+    }
+
+    arcosXhabitaciones(map, habitaciones, n);
+    
+    while (getline(map, linea)){
+        if (linea == "ENEMIGOS") break;
+    }
+
+    int e;
+
+    Enemigo* enemigos = leerEnemigos(map, e);
+
+    while (getline(map, linea)) {
+    if (linea == "EVENTOS") break;
+}
+
+int totalEventos;
+Evento* eventos = leerEventos(map, totalEventos);
+
+    cout << "Evento: " << eventos[0].nombre << " | Probabilidad: " << eventos[0].probabilidad << endl;
+    cout << "  A: " << eventos[0].opcionA << " → " << eventos[0].efectoA << endl;
+    cout << "  B: " << eventos[0].opcionB << " → " << eventos[0].efectoB << endl;
+    
+    delete[] habitaciones;
+    delete[] enemigos;
+    delete[] eventos;
+
+    return 0;
 
 }
