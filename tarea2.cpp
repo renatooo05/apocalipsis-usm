@@ -97,7 +97,7 @@ void arcosXhabitaciones(ifstream& map, Habitacion* habitaciones, int N){
         do {
             if (!getline(map, linea)){
                 cerr << "Error al leer el arco" << i + 1 <<endl;
-                exit(EXIT_FAILURE)
+                exit(EXIT_FAILURE);
             }
         } while (linea.empty());
 
@@ -150,7 +150,7 @@ Enemigo* leerEnemigos(ifstream& map, int & E){
     stringstream palabrasXlinea(linea);
     string parteAux;
     string enemyChrter[5];
-    int pos = 0
+    int pos = 0;
 
     while (getline(palabrasXlinea, parteAux, '|') && pos < 5){
         size_t inicioPalabra = parteAux.find_first_not_of(" ");
