@@ -6,6 +6,27 @@
 
 using namespace std;
 
+struct Habitacion{
+    int id;
+    string nombre;
+    string descripcion;
+    string tipo;   
+
+    Habitacion* hijoIZQ = NULL;
+    Habitacion* hijoMED = NULL;
+    Habitacion* hijoDER = NULL;
+
+};
+
+
+struct Enemigo {
+    string nombre;
+    int vida;
+    int ataque;
+    float precision;
+    float probabilidad;
+};
+
 struct Evento {
     string nombre;
     float probabilidad;
@@ -18,26 +39,11 @@ struct Evento {
     string efectoB;
 };
 
-
-struct Enemigo {
-    string nombre;
-    int vida;
-    int ataque;
-    float precision;
-    float probabilidad;
-};
-
-
-struct Habitacion{
-    int id;
-    string nombre;
-    string descripcion;
-    string tipo;   
-
-    Habitacion* hijoIZQ = NULL;
-    Habitacion* hijoMED = NULL;
-    Habitacion* hijoDER = NULL;
-
+struct Mejoras {
+    int vidaExtra = 0;
+    float precisionExtra = 0;
+    int ataqueExtra = 0;
+    int recuperacionExtra = 0;
 };
 
 
@@ -239,6 +245,34 @@ Evento* leerEventos(ifstream &map, int & eventosTotales){
 }
 
 
+Mejoras leerMejorasDeCombate(ifstream& map){
+    string linea;
+    Mejoras mejora;
+
+    while (getline(map, linea)){
+        if (linea == "FIN DEL ARCHIVO") break;
+        if (linea.empty()) continue;
+    
+
+        stringstream palabrasPorLinea(linea);
+        char simbolo;
+        float valor;
+        string tipoDeMejora;
+
+        palabrasPorLinea >> simbolo >> valor >> tipoDeMejora;
+
+        if(tipoDeMejora == "Vida")
+            mejora.vidaExtra = static_cast<int>(valor);
+        else if(tipoDeMejora == "Precision")
+            mejora.precisionExtra = valor;
+        else if(tipoDeMejora == "Ataque")
+            mejora.ataqueExtra = static_cast<int>(valor);
+        else if(tipoDeMejora == "Recuperacion")
+            mejora.recuperacionExtra = static_cast<int>(valor);
+    }
+    return mejora;
+}
+
 
 int main(){
     ifstream map("ejemplo.map");
@@ -274,17 +308,24 @@ int main(){
     if (linea == "EVENTOS") break;
 }
 
-int totalEventos;
-Evento* eventos = leerEventos(map, totalEventos);
+while (getline(map, linea)) {
+    if (linea.find("MEJORAS DE COMBATE") != string::npos) break;
+}
 
-    cout << "Evento: " << eventos[0].nombre << " | Probabilidad: " << eventos[0].probabilidad << endl;
-    cout << "  A: " << eventos[0].opcionA << " → " << eventos[0].efectoA << endl;
-    cout << "  B: " << eventos[0].opcionB << " → " << eventos[0].efectoB << endl;
+    Mejoras mejoras = leerMejorasDeCombate(map);
+
+    // Imprimir para probar
+    cout << "\nMejoras leídas:\n";
+    cout << " + Vida: " << mejoras.vidaExtra << endl;
+    cout << " + Precision: " << mejoras.precisionExtra << endl;
+    cout << " + Ataque: " << mejoras.ataqueExtra << endl;
+    cout << " + Recuperacion: " << mejoras.recuperacionExtra << endl;
     
     delete[] habitaciones;
     delete[] enemigos;
-    delete[] eventos;
+    
 
+    map.close();
     return 0;
 
 }
