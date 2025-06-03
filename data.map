@@ -1,0 +1,80 @@
+INICIO DE ARCHIVO
+HABITACIONES
+10
+0 Biblioteca (INICIO)
+Estás en la biblioteca central. El silencio fue interrumpido por gritos.
+1 Baño (EVENTO)
+Te metes al baño porque no te aguantabas y tomas agua del lavamanos. Refrescante, pero riesgoso.
+2 Testamento (COMBATE)
+La sala está infestada de zombis mechones. Es tu primera gran pelea.
+3 Sala del Director (EVENTO)
+El director perdió la cordura. Te entrega tu título universitario como último acto de cordura.
+4 Patio Central (COMBATE)
+Tu crush es mordida y se transforma en zombi. Luchas contra ella y más zombis mechones.
+5 Cafetería (COMBATE)
+Aparece el "Regalón de la Olla", acompañado por otros zombis aleatorios. Es un caos.
+6 Kiosko (EVENTO)
+Encuentras una RedBull. Recuperas parte de tu energía al beberla.
+7 Sector B (COMBATE)
+Una zona crítica. Te enfrentas a zombis aleatorios, excepto tu crush y Walter White.
+8 Laboratorio (FIN)
+Encuentras a tu amigo escondido. Walter White aparece junto a más zombis. Lo salvas, pero está infectado.
+9 NOAC (EVENTO)
+Conversas con un grupo de supervivientes. Te dan un arma de largo alcance (daño 8, 30 balas).
+ARCOS
+9
+0 -> 1
+0 -> 2
+2 -> 3
+2 -> 4
+4 -> 5
+4 -> 9
+5 -> 6
+5 -> 7
+7 -> 8
+ENEMIGOS 
+5
+Zombi Mechón | Vida 6 | Ataque 2 | Precision 0.85 | Probabilidad 0.4
+Loco René | Vida 10 | Ataque 4 | Precision 0.65 | Probabilidad 0.3
+Regalón de la Olla | Vida 20 | Ataque 6 | Precision 0.4 | Probabilidad 0.2
+El Walter White | Vida 30 | Ataque 8 | Precision 0.3 | Probabilidad 0.1
+Tu Crush | Vida 15 | Ataque 5 | Precision 0.7 | Probabilidad 0.15
+EVENTOS
+3
+&
+Hidratación en el baño
+Probabilidad 0.3
+Te metes al baño a tomar agua. Te sientes mejor.
+A: Tomar agua directo del lavamanos
+Recuperas energía, pero podrías enfermarte.
++3 VIDA
+B: Solo te enjuagas la cara
+Te mantienes alerta.
++0.05 PRECISIÓN
+&
+NOAC Resistencia
+Probabilidad 0.4
+Encuentras supervivientes organizados en el NOAC.
+A: Conversar con ellos
+Te entregan un arma de largo alcance con daño 8 y 30 balas.
++ARMA
+B: Desconfiar y huir
+Pierdes la oportunidad de obtener recursos.
+Sin efecto
+&
+Compra en el Kiosko
+Probabilidad 0.3
+La sed te llama. También ves un paquete de balas junto a las bebidas.
+A: Comprar RedBull y balas
+Recuperas fuerzas y recargas tu arma con 10 balas.
++6 VIDA
++10 BALAS
+B: Ahorrar tu dinero
+Te quedas con sed y sin municiones.
+Sin efecto
+MEJORAS DE COMBATE
++4 Vida
++0.1 Precision
++1 Ataque
++1 Recuperacion
+FIN DE ARCHIVO
